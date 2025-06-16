@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Rainbow Polygon</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        background: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="sketch.js"></script>
+  </body>
+</html>
+
+let angle = 0;
+
+function setup() {
+  createCanvas(600, 600);
+  colorMode(HSL, 360, 100, 100);
+  angleMode(RADIANS);
+}
+
+function draw() {
+  background(10);
+  let vertices = max(3, (mouseX + 150) / 50);
+  fill(vertices * 6 % 360, 100, 25);
+  strokeWeight(5);
+  stroke(vertices * 6 % 360, 100, 50);
+  
+  push();
+  translate(width / 2, height / 2);
+  rotate(angle);
+  drawShape(0, 0, 200 + sin(frameCount * 0.05) * 20, vertices);
+  pop();
+
+  angle += 0.01;
+}
+
+function drawShape(x, y, radius, vertices) {
+  beginShape();
+  for (let i = 0; i < vertices; i++) {
+    let angle = TWO_PI / vertices * i - HALF_PI;
+    let px = x + cos(angle) * radius;
+    let py = y + sin(angle) * radius;
+    vertex(px, py);
+  }
+  endShape(CLOSE);
+}
